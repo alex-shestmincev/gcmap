@@ -3,3 +3,26 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  form(name="search", action="/", method="post")
+    input(type='text', name='key')
+    button(type='submit') Search
+
+  if airports
+    each data in airports
+      div
+        p
+          b
+            span Key:
+            span= data.key
+        p
+          span Name:
+          span= data.name
+        p
+          span Latitude:
+          span= data.latitude
+        p
+          span Longitude:
+          span= data.latitude
+        p
+          span Time Zone:
+          span= data.timezone
