@@ -14,6 +14,9 @@ block content
           b
             span Key:
             span= data.key
+          form(name="delete", action="/delete", method="post")
+            input(type='hidden', name='key', value=data.key)
+            button(type='submit') x
         p
           span Name:
           span= data.name

@@ -36,11 +36,35 @@ function getSavedObjects(callback){
   });
 }
 
+function deleteByKey(key,callback){
+  getSavedObjects(function(data){
+    var index =_.findIndex(data, 'key', key);
+    if (index === -1){
+      callback(data);
+    }else{
+      data.splice(index,1);
+    }
+
+    fs.writeFile(airports_path, JSON.stringify(data), function (err) {
+      if (err) return console.log(err);
+      callback(data);
+    });
+  });
+}
+
 
 
 exports.index = function(req, res){
   getSavedObjects(function(data){
     res.render('index', { title: 'Express', airports: data.reverse() });
+  });
+
+};
+
+exports.delete = function(req, res){
+  var key = req.body.key;
+  deleteByKey(key,function(data){
+    res.redirect('/');
   });
 
 };

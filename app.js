@@ -25,6 +25,7 @@ app.use(app.router);
 
 app.get('/', routes.index);
 app.post('/', routes.indexpost);
+app.post('/delete', routes.delete);
 app.get('/users', users.list);
 
 /// catch 404 and forwarding to error handler
