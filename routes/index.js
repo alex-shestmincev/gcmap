@@ -40,16 +40,65 @@ function deleteByKey(key,callback){
   getSavedObjects(function(data){
     var index =_.findIndex(data, 'key', key);
     if (index === -1){
-      callback(data);
+      callback();
     }else{
       data.splice(index,1);
     }
 
     fs.writeFile(airports_path, JSON.stringify(data), function (err) {
       if (err) return console.log(err);
-      callback(data);
+      callback();
     });
   });
+}
+
+function UpdateByKey(params,callback){
+  var key = params.key;
+  var valid = validateParams(params);
+  if (valid){
+    getSavedObjects(function(data){
+      var index =_.findIndex(data, 'key', key);
+      if (index === -1){
+        throw new Error("No key find");
+      }else{
+        data[index] = params;
+      }
+
+      fs.writeFile(airports_path, JSON.stringify(data), function (err) {
+        if (err) return console.log(err);
+        callback();
+      });
+    });
+  }
+
+}
+
+function validateParams(params){
+  var key = params.key,
+    name = params.name,
+    latitude = params.latitude,
+    longitude = params.longitude,
+    timezone = params.timezone;
+
+  var keyMatches = /^(\w{3})$/.test(key);
+  var nameMatches = /^[\w\s]+$/.test(name);
+  var latMatches = /\(\d{1,2}([.]\d+)\)/.test(latitude);
+  var longMatches = /\(\d{1,3}([.]\d+)\)/.test(longitude);
+  var timezoneMatches = /^(UTC)[-+]\d/.test(timezone);
+
+  if (keyMatches === false){
+    throw new Error("Field 'key' is invalid");
+  }else if(nameMatches === false){
+    throw new Error("Field 'name' is invalid");
+  }else if(latMatches === false){
+    throw new Error("Field 'latitude' is invalid");
+  }else if(longMatches === false){
+    throw new Error("Field 'longitude' is invalid");
+  }else if(timezoneMatches === false){
+    throw new Error("Field 'timezone' is invalid");
+  }
+
+  return true;
 }
 
 
@@ -63,7 +112,14 @@ exports.index = function(req, res){
 
 exports.delete = function(req, res){
   var key = req.body.key;
-  deleteByKey(key,function(data){
+  deleteByKey(key,function(){
+    res.redirect('/');
+  });
+
+};
+
+exports.update = function(req, res){
+  UpdateByKey(req.body,function(){
     res.redirect('/');
   });
 

@@ -9,23 +9,32 @@ block content
 
   if airports
     each data in airports
-      div
+      div(id='block_'+data.key)
         p
           b
             span Key:
             span= data.key
+          button(type='button',class='showParam',onclick='showForm("'+data.key+'")') u
+          button(type='button',class='updateParam',onclick='hideForm("'+data.key+'")') c
           form(name="delete", action="/delete", method="post")
             input(type='hidden', name='key', value=data.key)
             button(type='submit') x
-        p
-          span Name:
-          span= data.name
-        p
-          span Latitude:
-          span= data.latitude
-        p
-          span Longitude:
-          span= data.latitude
-        p
-          span Time Zone:
-          span= data.timezone
+        form(name="update", action="/update", method="post")
+          input(type='hidden',name='key',value=data.key)
+          p
+            span Name:
+            span(class='showParam')= data.name
+            input(name='name', class='updateParam', value=data.name)
+          p
+            span Latitude:
+            span(class='showParam')= data.latitude
+            input(name='latitude', class='updateParam', value=data.latitude)
+          p
+            span Longitude:
+            span(class='showParam')= data.longitude
+            input(name='longitude', class='updateParam', value=data.longitude)
+          p
+            span Time Zone:
+            span(class='showParam')= data.timezone
+            input(name='timezone', class='updateParam', value=data.timezone)
+          button(type='submit', class='updateParam') Update

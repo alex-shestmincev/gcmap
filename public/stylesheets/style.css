@@ -6,3 +6,11 @@ body {
 a {
   color: #00B7FF;
 }
+
+.updateParam {
+    display:none;
+}
+
+.showParam {
+    display:block;
+}
