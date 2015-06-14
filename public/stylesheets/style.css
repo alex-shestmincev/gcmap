@@ -14,3 +14,7 @@ a {
 .showParam {
     display:block;
 }
+
+.actions {
+    width:100px;
+}

@@ -25,7 +25,7 @@ app.use(app.router);
 
 app.get('/', routes.index);
 app.post('/', routes.indexpost);
-app.post('/delete', routes.delete);
+app.get('/delete/:key', routes.delete);
 app.post('/update', routes.update);
 app.get('/users', users.list);
 

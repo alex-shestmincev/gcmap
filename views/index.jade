@@ -1,40 +1,57 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  form(name="search", action="/", method="post")
-    input(type='text', name='key')
-    button(type='submit') Search
+  div.jumbotron
+    div.row
+      div.col-md-8.col-md-offset-2
+        h3 Gcmap parser
+    form(name="search", action="/", method="post")
+      div.row
+        div.col-md-8.col-md-offset-2
+          div.input-group
+            input(type='text', name='key',autofocus='', required='', placeholder='IATA code...',class='form-control',maxlength=3)
+            span.input-group-btn
+              button(type='submit',class='btn btn-default') Search
 
   if airports
-    each data in airports
-      div(id='block_'+data.key)
-        p
-          b
-            span Key:
-            span= data.key
-          button(type='button',class='showParam',onclick='showForm("'+data.key+'")') u
-          button(type='button',class='updateParam',onclick='hideForm("'+data.key+'")') c
-          form(name="delete", action="/delete", method="post")
-            input(type='hidden', name='key', value=data.key)
-            button(type='submit') x
+
+    table.table.table-hover
+      thead
+        tr
+          th Code
+          th Name
+          th Latitude
+          th Longitude
+          th Time Zone
+          th.actions
+      tbody
+      each data in airports
         form(name="update", action="/update", method="post")
           input(type='hidden',name='key',value=data.key)
-          p
-            span Name:
-            span(class='showParam')= data.name
-            input(name='name', class='updateParam', value=data.name)
-          p
-            span Latitude:
-            span(class='showParam')= data.latitude
-            input(name='latitude', class='updateParam', value=data.latitude)
-          p
-            span Longitude:
-            span(class='showParam')= data.longitude
-            input(name='longitude', class='updateParam', value=data.longitude)
-          p
-            span Time Zone:
-            span(class='showParam')= data.timezone
-            input(name='timezone', class='updateParam', value=data.timezone)
-          button(type='submit', class='updateParam') Update
+          tr(id='block_'+data.key)
+            td= data.key
+            td
+              span(class='showParam')= data.name
+              input(name='name', class='updateParam', value=data.name)
+            td
+              span(class='showParam')= data.latitude
+              input(name='latitude', class='updateParam', value=data.latitude)
+            td
+              span(class='showParam')= data.longitude
+              input(name='longitude', class='updateParam', value=data.longitude)
+            td
+              span(class='showParam')= data.timezone
+              input(name='timezone', class='updateParam', value=data.timezone)
+            td.text-right
+              span.showParam
+                button(type='button',class='btn btn-primary btn-sm',onclick='showForm("'+data.key+'")')
+                  i.glyphicon.glyphicon-pencil
+                a(href='/delete/'+data.key)
+                  button.btn.btn-danger.btn-sm
+                    i.glyphicon.glyphicon-remove
+              span.updateParam
+                button(type='submit', class='btn btn-success') Update
+                button(type='button',class='btn btn-danger',onclick='hideForm("'+data.key+'")') Cancel
+
+      form(name="delete",id="delete", action="/delete", method="post")
+        input(type='hidden', name='key',id="delete_key")

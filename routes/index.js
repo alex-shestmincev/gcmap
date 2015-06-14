@@ -111,7 +111,7 @@ exports.index = function(req, res){
 };
 
 exports.delete = function(req, res){
-  var key = req.body.key;
+  var key = req.query.key;
   deleteByKey(key,function(){
     res.redirect('/');
   });

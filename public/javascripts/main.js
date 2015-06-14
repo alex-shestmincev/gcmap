@@ -22,3 +22,10 @@ function toggle(el) {
   el.style.display = (el.style.display == 'none') ? 'block' : 'none'
 }
 
+function deleteForm(key){
+  console.log(key);
+  console.log(document.querySelector('#delete'));
+  document.querySelector('#delete_key').value = 'key';
+  document.getElementById('delete').submit();
+}
+
