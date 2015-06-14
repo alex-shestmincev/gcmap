@@ -27,7 +27,6 @@ app.get('/', routes.index);
 app.post('/', routes.indexpost);
 app.get('/delete/:key', routes.delete);
 app.post('/update', routes.update);
-app.get('/users', users.list);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
