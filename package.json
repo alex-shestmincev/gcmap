@@ -15,5 +15,8 @@
     "lodash": "^3.9.3",
     "morgan": "~1.0.0",
     "static-favicon": "~1.0.0"
+  },
+  "engines": {
+    "node": "0.12.x"
   }
 }
